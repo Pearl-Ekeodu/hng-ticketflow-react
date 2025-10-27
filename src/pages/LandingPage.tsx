@@ -238,14 +238,6 @@ export function LandingPage() {
             autoComplete="current-password"
           />
 
-          <div className="auth-demo-note">
-            <p>
-              <strong>Demo credentials:</strong><br />
-              Email: demo@ticketflow.com<br />
-              Password: demo123
-            </p>
-          </div>
-
           <div className="modal-actions">
             <Button type="submit" fullWidth isLoading={isSubmittingLogin}>
               Log In
