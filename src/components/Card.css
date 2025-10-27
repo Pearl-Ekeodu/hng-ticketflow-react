@@ -1,0 +1,39 @@
+.card {
+  background: white;
+  border-radius: var(--radius-3xl);
+  box-shadow: var(--shadow-lg);
+  padding: 2rem;
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  border: 1px solid var(--color-gray-100);
+}
+
+.card-glass {
+  background: rgba(255, 255, 255, 0.95);
+  backdrop-filter: blur(20px);
+  border: 1px solid rgba(255, 255, 255, 0.4);
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.08);
+}
+
+.card-hoverable:hover {
+  box-shadow: var(--shadow-2xl);
+  transform: translateY(-4px);
+}
+
+.card-clickable {
+  cursor: pointer;
+}
+
+.card-clickable:hover {
+  box-shadow: var(--shadow-2xl);
+  transform: translateY(-4px) scale(1.02);
+}
+
+.card-clickable:active {
+  transform: translateY(-2px) scale(1.01);
+}
+
+/* Gradient card variant */
+.card-gradient {
+  background: linear-gradient(to bottom right, var(--color-blue-50), var(--color-cyan-50));
+  border: 1px solid var(--color-blue-100);
+}

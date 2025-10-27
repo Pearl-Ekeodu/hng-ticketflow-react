@@ -1,0 +1,129 @@
+.input-group {
+  margin-bottom: var(--space-lg);
+}
+
+.input-label {
+  display: block;
+  font-size: 0.875rem;
+  font-weight: 600;
+  color: var(--color-gray-700);
+  margin-bottom: 0.5rem;
+}
+
+.input-label .required {
+  color: var(--color-red-500);
+  margin-left: 0.25rem;
+}
+
+.input {
+  width: 100%;
+  padding: 0.75rem 1rem;
+  font-size: 1rem;
+  color: var(--color-text-primary);
+  background-color: white;
+  border: 2px solid var(--color-gray-200);
+  border-radius: var(--radius-xl);
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.input::placeholder {
+  color: var(--color-gray-400);
+}
+
+.input:focus {
+  outline: none;
+  border-color: var(--color-blue-400);
+  box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.1);
+}
+
+.input:disabled {
+  background-color: var(--color-gray-50);
+  cursor: not-allowed;
+  opacity: 0.6;
+}
+
+/* Error state */
+.input-group.has-error .input {
+  border-color: var(--color-red-500);
+  background-color: var(--color-rose-50);
+}
+
+.input-group.has-error .input:focus {
+  border-color: var(--color-red-500);
+  box-shadow: 0 0 0 3px rgba(239, 68, 68, 0.1);
+}
+
+.input-error {
+  display: flex;
+  align-items: center;
+  gap: 0.25rem;
+  color: var(--color-red-600);
+  font-size: 0.875rem;
+  margin-top: 0.5rem;
+}
+
+.input-error svg {
+  flex-shrink: 0;
+}
+
+/* Success state */
+.input-group.has-success .input {
+  border-color: var(--color-emerald-500);
+}
+
+.input-group.has-success .input:focus {
+  border-color: var(--color-emerald-500);
+  box-shadow: 0 0 0 3px rgba(16, 185, 129, 0.1);
+}
+
+.input-success {
+  display: flex;
+  align-items: center;
+  gap: 0.25rem;
+  color: var(--color-emerald-600);
+  font-size: 0.875rem;
+  margin-top: 0.5rem;
+}
+
+/* Mobile Responsive */
+@media (max-width: 768px) {
+  .input-group {
+    margin-bottom: var(--space-md);
+  }
+
+  .input-label {
+    font-size: 0.8125rem;
+  }
+
+  .input {
+    padding: 0.625rem 0.875rem;
+    font-size: 0.9375rem;
+  }
+
+  .input-error,
+  .input-success,
+  .input-help {
+    font-size: 0.8125rem;
+  }
+}
+
+@media (max-width: 480px) {
+  .input-group {
+    margin-bottom: var(--space-sm);
+  }
+
+  .input-label {
+    font-size: 0.75rem;
+  }
+
+  .input {
+    padding: 0.5rem 0.75rem;
+    font-size: 0.875rem;
+  }
+
+  .input-error,
+  .input-success,
+  .input-help {
+    font-size: 0.75rem;
+  }
+}
