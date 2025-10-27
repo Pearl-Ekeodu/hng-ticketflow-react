@@ -1,0 +1,11 @@
+<svg width="300" height="300" viewBox="0 0 300 300" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <circle cx="150" cy="150" r="140" fill="url(#circle-gradient-2)" opacity="0.12"/>
+  <circle cx="150" cy="150" r="90" fill="url(#circle-gradient-2)" opacity="0.18"/>
+  <defs>
+    <radialGradient id="circle-gradient-2">
+      <stop offset="0%" style="stop-color:#2563EB;stop-opacity:1" />
+      <stop offset="100%" style="stop-color:#4F46E5;stop-opacity:0" />
+    </radialGradient>
+  </defs>
+</svg>
+
