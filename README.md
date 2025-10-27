@@ -4,7 +4,7 @@ A modern, responsive ticket management system built with React, TypeScript, and 
 
 ## 🚀 Live Demo
 
-[Deploy to Vercel](https://vercel.com) - *Coming soon*
+**[🎫 TicketFlow React App](https://hng-ticketflow-react-self.vercel.app)** - Live on Vercel
 
 ## ✨ Features
 
