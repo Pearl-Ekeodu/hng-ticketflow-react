@@ -23,6 +23,8 @@ export const TicketsPage: React.FC = () => {
   const [isEditModalOpen, setIsEditModalOpen] = useState(false);
   const [isDeleteModalOpen, setIsDeleteModalOpen] = useState(false);
   const [selectedTicket, setSelectedTicket] = useState<Ticket | null>(null);
+  const [searchQuery, setSearchQuery] = useState('');
+  const [statusFilter, setStatusFilter] = useState<'all' | 'open' | 'in_progress' | 'closed'>('all');
 
   const {
     register: registerCreate,
@@ -103,8 +105,35 @@ export const TicketsPage: React.FC = () => {
       year: 'numeric',
       month: 'short',
       day: 'numeric',
+      hour: '2-digit',
+      minute: '2-digit',
     });
   };
+
+  // Helper function to get tickets by status
+  const getTicketsByStatus = (status: 'open' | 'in_progress' | 'closed') => {
+    return tickets.filter(ticket => ticket.status === status);
+  };
+
+  // Filter tickets based on search query and status
+  const filteredTickets = tickets.filter(ticket => {
+    // Filter by status
+    if (statusFilter !== 'all' && ticket.status !== statusFilter) {
+      return false;
+    }
+
+    // Filter by search query
+    if (searchQuery.trim()) {
+      const query = searchQuery.toLowerCase();
+      const matchesTitle = ticket.title.toLowerCase().includes(query);
+      const matchesDescription = ticket.description?.toLowerCase().includes(query) || false;
+      if (!matchesTitle && !matchesDescription) {
+        return false;
+      }
+    }
+
+    return true;
+  });
 
   return (
     <div className="tickets-page">
@@ -133,38 +162,97 @@ export const TicketsPage: React.FC = () => {
 
       <main className="tickets-main">
         <div className="container">
-          {tickets.length === 0 ? (
+          {/* Filter and Search */}
+          <section className="filters-section" aria-label="Ticket filters and search">
+            <div className="filters-row">
+              <div className="search-wrapper">
+                <input
+                  type="text"
+                  placeholder="Search tickets..."
+                  className="search-input"
+                  aria-label="Search tickets"
+                  value={searchQuery}
+                  onChange={(e) => setSearchQuery(e.target.value)}
+                />
+                <span className="search-icon" aria-hidden="true">🔍</span>
+              </div>
+              
+              <div className="filter-buttons">
+                <button
+                  className={`filter-button ${statusFilter === 'all' ? 'active' : ''}`}
+                  onClick={() => setStatusFilter('all')}
+                  aria-label="Show all tickets"
+                >
+                  All ({tickets.length})
+                </button>
+                <button
+                  className={`filter-button ${statusFilter === 'open' ? 'active' : ''}`}
+                  onClick={() => setStatusFilter('open')}
+                  aria-label="Show open tickets"
+                >
+                  Open ({getTicketsByStatus('open').length})
+                </button>
+                <button
+                  className={`filter-button ${statusFilter === 'in_progress' ? 'active' : ''}`}
+                  onClick={() => setStatusFilter('in_progress')}
+                  aria-label="Show in progress tickets"
+                >
+                  In Progress ({getTicketsByStatus('in_progress').length})
+                </button>
+                <button
+                  className={`filter-button ${statusFilter === 'closed' ? 'active' : ''}`}
+                  onClick={() => setStatusFilter('closed')}
+                  aria-label="Show closed tickets"
+                >
+                  Closed ({getTicketsByStatus('closed').length})
+                </button>
+              </div>
+            </div>
+          </section>
+
+          {filteredTickets.length === 0 ? (
             <div className="empty-state">
-              <div className="empty-icon">📝</div>
-              <h2 className="empty-title">No tickets yet</h2>
+              <div className="empty-icon">🎫</div>
+              <h2 className="empty-title">{searchQuery ? 'No tickets found' : 'No tickets yet'}</h2>
               <p className="empty-description">
-                Get started by creating your first ticket
+                {searchQuery ? 'Try adjusting your search terms or filters' : 'Get started by creating your first ticket'}
               </p>
               <Button onClick={() => setIsCreateModalOpen(true)}>
-                Create Your First Ticket
+                {searchQuery ? 'Create Ticket' : 'Create Your First Ticket'}
               </Button>
             </div>
           ) : (
             <div className="tickets-grid">
-              {tickets.map((ticket) => (
+              {filteredTickets.map((ticket) => (
                 <Card key={ticket.id} hoverable>
                   <div className="ticket-card">
                     <div className="ticket-header">
                       <h3 className="ticket-title">{ticket.title}</h3>
-                      <StatusBadge status={ticket.status} />
+                      <div className="ticket-badges">
+                        <StatusBadge status={ticket.status} />
+                        {ticket.priority && (
+                          <span className={`priority-badge priority-${ticket.priority}`}>
+                            {ticket.priority.toUpperCase()}
+                          </span>
+                        )}
+                      </div>
                     </div>
 
                     {ticket.description && (
-                      <p className="ticket-description">{ticket.description}</p>
+                      <p className="ticket-description">
+                        {ticket.description.length > 150
+                          ? `${ticket.description.substring(0, 150)}...`
+                          : ticket.description}
+                      </p>
                     )}
 
                     <div className="ticket-meta">
                       <span className="ticket-date">
                         Created: {formatDate(ticket.createdAt)}
                       </span>
-                      {ticket.priority && (
-                        <span className={`ticket-priority priority-${ticket.priority}`}>
-                          {ticket.priority}
+                      {ticket.updatedAt !== ticket.createdAt && (
+                        <span className="ticket-date">
+                          Updated: {formatDate(ticket.updatedAt)}
                         </span>
                       )}
                     </div>
